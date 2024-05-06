@@ -13,7 +13,7 @@ func InitDb() {
 	DB, err = sql.Open("sqlite", "api.db")
 
 	if err != nil {
-		panic("Could not connect to database:" + err.Error())
+		panic("Could not connect to database:" + err.Error() + ".")
 	}
 
 	DB.SetMaxOpenConns(10)
@@ -23,6 +23,18 @@ func InitDb() {
 }
 
 func createTables() {
+	createUsersTable := `
+	CREATE TABLE IF NOT EXISTS users (
+		ID INTEGER PRIMARY KEY AUTOINCREMENT,
+		Email Text NOT NULL Unique,
+		Password Text Not Null
+	)
+	`
+	_, err := DB.Exec(createUsersTable)
+	if err != nil {
+		panic("Could not create users table: " + err.Error() + ".")
+	}
+
 	createEventsTable := `
 		CREATE TABLE IF NOT EXISTS events (
 			ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,13 +42,14 @@ func createTables() {
 			Description TEXT NOT NULL,
 			Location TEXT NOT NULL,
 			DateTime DATETIME NOT NULL,
-			User_id INTEGER
+			User_id INTEGER,
+			Foreign key(User_id) References Users(ID)
 		)
 	`
 
-	_, err := DB.Exec(createEventsTable)
+	_, err = DB.Exec(createEventsTable)
 
 	if err != nil {
-		panic("Could not create events table:" + err.Error())
+		panic("Could not create events table:" + err.Error() + ".")
 	}
 }
