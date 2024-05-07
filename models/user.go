@@ -13,30 +13,31 @@ type User struct {
 	Password string `binding:"required"`
 }
 
-func (u *User) Save() error {
+func (u *User) Save() (*User, error) {
 	//will eventually be to db
 	//events = append(events, *e)
 	query := `
 	INSERT INTO Users(email, password) VALUES (?, ?)`
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer stmt.Close()
 
 	hashedPassword, err := utils.HashPassword(u.Password)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	result, err := stmt.Exec(u.Email, hashedPassword)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	id, err := result.LastInsertId()
 	u.ID = id
-	return err
+	u.Password = ""
+	return u, err
 }
 
 func (u *User) ValidateCredentials() error {
@@ -57,4 +58,28 @@ func (u *User) ValidateCredentials() error {
 	}
 
 	return nil
+}
+
+func GetUsers() ([]User, error) {
+	query := "SELECT * FROM users"
+	rows, err := db.DB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []User
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.ID, &user.Email, &user.Password)
+
+		if err != nil {
+			return nil, err
+		}
+		user.Password = ""
+		users = append(users, user)
+	}
+
+	return users, nil
 }

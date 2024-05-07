@@ -2,6 +2,7 @@ package routes
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/chrisjoyce54/GoApi/models"
 	"github.com/chrisjoyce54/GoApi/utils"
@@ -17,14 +18,14 @@ func signup(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request date: " + err.Error() + "."})
 	}
 
-	err = user.Save()
+	u, err := user.Save()
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not save user: " + err.Error() + "."})
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"message": "User created."})
+	context.JSON(http.StatusCreated, gin.H{"message": "User created: " + strconv.FormatInt(u.ID, 10) + " " + u.Email})
 }
 
 func login(context *gin.Context) {
@@ -50,4 +51,13 @@ func login(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Success", "token": token})
+}
+
+func getUsers(context *gin.Context) {
+	events, err := models.GetUsers()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch users. Try again later: " + err.Error() + "."})
+		return
+	}
+	context.JSON(http.StatusOK, events)
 }
