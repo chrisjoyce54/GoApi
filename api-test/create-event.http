@@ -1,10 +1,10 @@
 POST http://localhost:8080/events
 content-type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1MDQxMTYwLCJ1c2VySWQiOjJ9.GtM2rehTdFto4UrG95end38alB5tZcBbFSaiDl0shBI
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1MTAyNTAxLCJ1c2VySWQiOjJ9.2DqXMXwFDMW_XKd6NOFYu6uKWD6khF6Ff77x3t9qGBc
 
 {
-  "name": "Test event 2",
-  "description": "Another test event 2",
+  "name": "Test event 4",
+  "description": "Another test event 4",
   "location": "A test location",
-  "dateTime": "2025-01-01T15:30:00.000Z"
+  "dateTime": "2025-05-07T15:30:00.000Z"
 }
