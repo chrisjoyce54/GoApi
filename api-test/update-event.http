@@ -1,10 +1,10 @@
-PUT http://localhost:8080/events/4
+PUT http://localhost:8080/events/5
 content-type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1MTAyNTAxLCJ1c2VySWQiOjJ9.2DqXMXwFDMW_XKd6NOFYu6uKWD6khF6Ff77x3t9qGBc
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QzQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1MTkyMjU0LCJ1c2VySWQiOjN9.7yeKBoViA4EPMP0UlMpul27VsfYO3q3efvjsft2hNJA
 
 {
-  "name": "Updated test event",
-  "description": "A test event",
-  "location": "Test location (Updated Again!)",
-  "dateTime": "2025-01-01T15:30:00Z"
+  "name": "Updated test event 5",
+  "description": "A test event 5",
+  "location": "Test location (Updated!)",
+  "dateTime": "2024-05-08T15:30:00Z"
 }

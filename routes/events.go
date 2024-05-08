@@ -89,7 +89,7 @@ func updateEvent(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not update event: " + err.Error() + "."})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Event updated successfully!"})
+	context.JSON(http.StatusOK, gin.H{"message": "Event updated successfully!", "event": updatedEvent})
 }
 
 func deleteEvent(context *gin.Context) {

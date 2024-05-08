@@ -2,6 +2,7 @@ package routes
 
 import (
 	"net/http"
+	"net/mail"
 	"strconv"
 
 	"github.com/chrisjoyce54/GoApi/models"
@@ -15,7 +16,14 @@ func signup(context *gin.Context) {
 	err := context.ShouldBindJSON(&user)
 
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request date: " + err.Error() + "."})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request : " + err.Error() + "."})
+		return
+	}
+
+	err = validEmail(user.Email)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Must provide valid email address: " + err.Error() + "."})
+		return
 	}
 
 	u, err := user.Save()
@@ -50,7 +58,7 @@ func login(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not authenticate: " + err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Success", "token": token})
+	context.JSON(http.StatusOK, gin.H{"message": "Success", "user": user.Email, "token": token})
 }
 
 func getUsers(context *gin.Context) {
@@ -60,4 +68,9 @@ func getUsers(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, events)
+}
+
+func validEmail(email string) error {
+	_, err := mail.ParseAddress(email)
+	return err
 }
